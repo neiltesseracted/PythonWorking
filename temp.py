@@ -7,7 +7,7 @@ This is a temporary script file.
 import os
 import csv
 import pandas as pd
-os.chdir('/Users/neo/PythonWorking/')
+os.chdir('/Users/neo/CLOUDSMAC/Dropbox/PythonWorking/')
 
 """
 with open('./lecz/lecz-urban-rural-population-land-area-estimates_continent-90m.csv','rU') as inputFile:
