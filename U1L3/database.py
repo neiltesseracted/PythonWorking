@@ -7,7 +7,8 @@ Created on Sun Nov 22 21:23:21 2015
 
 import sqlite3 as sql, os, pandas as pd, csv
 
-os.chdir('/Users/neo/CLOUDSMAC/Dropbox/PythonWorking/U1L3')
+
+os.chdir(os.getcwd())
 
 #con = sql.connect('madb.db')
 
