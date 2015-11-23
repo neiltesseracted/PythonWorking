@@ -7,6 +7,7 @@ This is a temporary script file.
 import os
 import csv
 import pandas as pd
+import sqlite3 as sql
 os.chdir('/Users/neo/CLOUDSMAC/Dropbox/PythonWorking/')
 
 """
@@ -24,5 +25,3 @@ dataframe2=pd.read_csv('lecz/lecz-urban-rural-population-land-area-estimates_con
 
 #blah!
 
-        
-    
