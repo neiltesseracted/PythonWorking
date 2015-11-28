@@ -73,5 +73,3 @@ with sql.connect('madb.db') as con:
     print("The cities that are warmest in July are: ")
     for row in rows:
         print(str(row[0])+ ', ' + str(row[1]))
-   
-    
