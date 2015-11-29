@@ -9,6 +9,7 @@ loansData['Debt.To.Income.Ratio']=loansData['Debt.To.Income.Ratio'].map(lambda x
 loansData['FICO.Range']=loansData['FICO.Range'].map(lambda x: [int(i) for i in x.split('-')])
 
 loansData['FICO.Score']=loansData['FICO.Range'].map(lambda x: sum(x)/len(x))
+loansData.to_csv('loansData_clean.csv', header=True, index=False)
 
 rate = loansData['Interest.Rate']
 amt = loansData['Amount.Requested']
