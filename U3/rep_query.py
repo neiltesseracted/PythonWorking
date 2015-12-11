@@ -28,6 +28,16 @@ for i in range(60):
         for k, v in id_bikes.iteritems():
             cur.execute("UPDATE available_bikes SET _" + str(k) + " = " + str(v) + " WHERE execution_time = " + exec_time.strftime('%s') + ";")
 
-    time.sleep(60)
+    if i < 59:
+        if i==58: print(str(59-i) + " run to go. Next run in 60 sec.")
+        else: print(str(59-i) + " runs to go. Next run in 60 sec.")
+        time.sleep(30)
+        print("Next run in 30 sec.")
+        time.sleep(20)
+        print("Next run in 10 sec.")
+        time.sleep(10)
+    else:
+        print("60 runs finished")
+
 
 con.close()
