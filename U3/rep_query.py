@@ -6,23 +6,38 @@ import collections
 from dateutil.parser import parse
 
 r = requests.get('http://www.citibikenyc.com/stations/json', stream=True)
-
-#take the string and parse it into a Python datetime object
-exec_time = parse(r.json()['executionTime'])
-
 con = lite.connect('citi_bike.db')
 cur = con.cursor()
-
 with con:
-    cur.execute('INSERT INTO available_bikes (execution_time) VALUES (?)', (exec_time.strftime('%s'),))
+    cur.execute('DELETE FROM available_bikes')
 
-id_bikes = collections.defaultdict(int) #defaultdict to store available bikes by station
+for i in range(60):
+    #take the string and parse it into a Python datetime object
+    exec_time = parse(r.json()['executionTime'])
 
-#loop through the stations in the station list
-for station in r.json()['stationBeanList']:
-    id_bikes[station['id']] = station['availableBikes']
+    with con:
+        cur.execute('INSERT INTO available_bikes (execution_time) VALUES (?)', (exec_time.strftime('%s'),))
 
-with con:
-    for k, v in id_bikes.iteritems():
-        cur.execute("UPDATE available_bikes SET _" + str(k) + " = " + str(v) + " WHERE execution_time = " + exec_time.strftime('%s') + ";")
+    id_bikes = collections.defaultdict(int) #defaultdict to store available bikes by station
 
+    #loop through the stations in the station list
+    for station in r.json()['stationBeanList']:
+        id_bikes[station['id']] = station['availableBikes']
+
+    with con:
+        for k, v in id_bikes.iteritems():
+            cur.execute("UPDATE available_bikes SET _" + str(k) + " = " + str(v) + " WHERE execution_time = " + exec_time.strftime('%s') + ";")
+
+    if i < 59:
+        if i==58: print(str(59-i) + " run to go. Next run in 60 sec.")
+        else: print(str(59-i) + " runs to go. Next run in 60 sec.")
+        time.sleep(30)
+        print("Next run in 30 sec.")
+        time.sleep(20)
+        print("Next run in 10 sec.")
+        time.sleep(10)
+    else:
+        print("60 runs finished")
+
+
+con.close()
