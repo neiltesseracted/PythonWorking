@@ -16,6 +16,7 @@ perioduntil=datetime.datetime.utcfromtimestamp(df.index.max()).strftime(dateform
 winner_hi=(df[winner].idxmax(), df[winner][df[winner].idxmax()])
 winner_lo=(df[winner].idxmin(), df[winner][df[winner].idxmin()])
 
+diff.hist()
 print("City with greatest range in daily temperatureMax throughout past month is %s. " % winner)
 print("Daily temperatureMax observed from %s to %s, " % (periodstart,perioduntil) )
 print("during which highest temperatureMax in %s was %d F on %s, lowest temperatureMax %d F on %s." % (
@@ -26,5 +27,4 @@ print("during which highest temperatureMax in %s was %d F on %s, lowest temperat
         datetime.datetime.utcfromtimestamp(winner_lo[0]).strftime(dateformat)
         )
       )
-
 
