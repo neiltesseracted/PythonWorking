@@ -3,6 +3,10 @@ from sklearn.ensemble import RandomForestClassifier
 import sklearn.metrics as skm
 import pylab as pl
 
+# data is downloadable here:
+# https://archive.ics.uci.edu/ml/machine-learning-databases/00240/
+# description here:
+# https://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
 datafolder="../PythonWorking_largedata/UCI HAR Dataset/"
 
 trainx=pd.read_fwf(datafolder+"train/X_train.txt", header=None, widths=[16]*561)
@@ -14,11 +18,10 @@ trainx.columns=header
 rfc = RandomForestClassifier(n_estimators=500, oob_score=True)
 print("fitting model...")
 model=rfc.fit(trainx, trainy.values.ravel())
-# if no .ravel(), warns this:
-# DataConversionWarning: A column-vector y was passed when a 1d array was expected.
+# if no .ravel(), warns me this:
+# DataConversionWarning: A column-vector y was passed when a 1d array was expected. \
 # Please change the shape of y to (n_samples,), for example using ravel().
 print("rfc done." + " oob_score_ is " + str(rfc.oob_score_))
-
 ############## rfc done. ###############
 
 fi = rfc.feature_importances_
