@@ -9,7 +9,7 @@ df=df.reindex_axis(df.columns[[0,1,2,3,5,4]],axis=1)
 
 # split data table into data X and class labels y
 X = df.ix[:,0:4].values
-y = df.ix[:,4].values
+# y = df.ix[:,4].values
 
 # Standardizing
 from sklearn.preprocessing import StandardScaler
@@ -65,22 +65,54 @@ Y = X_std.dot(matrix_w)
 
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
-# cmap_light = ListedColormap(['#FFAAAA', '#AAFFAA', '#AAAAFF'])  # red green blue
+cmap_light = ListedColormap(['#FFAAAA', '#AAFFAA', '#AAAAFF'])  # red green blue
 cmap_bold = ListedColormap(['#FF0000', '#00FF00', '#0000FF'])   # red green blue
 
 # plot
-plt.figure(figsize=(16,8))
+plt.figure(figsize=(18,6))
 
-plt.subplot(1,2,1)
+plt.subplot(1,3,1)
 plt.scatter(Y[:,0], Y[:,1], c=df['target'], cmap=cmap_bold, alpha=.8, s=40)
 plt.title('True Target')
+plt.axis('tight')
 plt.grid()
 
 # kMeans on decomposed Y
 from scipy.cluster.vq import kmeans, vq, whiten
 centroids, dist =kmeans(Y,3)
 idx, idxdist = vq(Y, centroids)
-plt.subplot(1,2,2)
+plt.subplot(1,3,2)
 plt.scatter(Y[:,0], Y[:,1], c=idx.reshape(150,1),  alpha=.8, s=40)
 plt.title('kMeans on decomposed Y')
+plt.axis('tight')
 plt.grid()
+
+# svm
+def plot_estimator(estimator, X, y):
+    estimator.fit(X, y)
+    x_min, x_max = X[:, 0].min() - .1, X[:, 0].max() + .1
+    y_min, y_max = X[:, 1].min() - .1, X[:, 1].max() + .1
+    xx, yy = np.meshgrid(np.linspace(x_min, x_max, 100),
+                         np.linspace(y_min, y_max, 100))
+    Z = estimator.predict(np.c_[xx.ravel(), yy.ravel()])
+
+    # Put the result into a color plot
+    Z = Z.reshape(xx.shape)
+    # plt.figure()
+    plt.pcolormesh(xx, yy, Z, cmap=cmap_light, vmin=0, vmax=2)
+
+    # Plot also the training points
+    plt.scatter(X[:, 0], X[:, 1], c=y, cmap=cmap_bold, vmin=0, vmax=2, alpha=.8, s=40)
+    plt.axis('tight')
+
+from sklearn import svm
+svc = svm.SVC(kernel='linear')
+
+y = iris.target
+svc.fit(Y, y)
+
+plt.subplot(1,3,3)
+plot_estimator(svc, Y, y)
+plt.title('SVM')
+plt.grid()
+plt.tight_layout()
