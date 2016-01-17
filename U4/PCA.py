@@ -9,6 +9,7 @@ df=df.reindex_axis(df.columns[[0,1,2,3,5,4]],axis=1)
 
 # split data table into data X and class labels y
 X = df.ix[:,0:4].values
+y = iris.target
 # y = df.ix[:,4].values
 
 # Standardizing
@@ -108,7 +109,6 @@ def plot_estimator(estimator, X, y):
 from sklearn import svm
 svc = svm.SVC(kernel='linear')
 
-y = iris.target
 svc.fit(Y, y)
 
 plt.subplot(1,3,3)
