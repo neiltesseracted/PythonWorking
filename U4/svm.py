@@ -72,3 +72,4 @@ for feat1 in xrange(0,4):
         plt.ylabel(iris.feature_names[feat2])
 plt.tight_layout()
 plt.savefig('svm_3labels')
+
